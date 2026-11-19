@@ -1,0 +1,140 @@
+// =====================================================
+// 设计系统 - 变量定义
+// 参考 shadcn/ui + Soybean Admin 设计规范
+// 丰富的中性色阶 + 层次化表面 + 一致间距
+// =====================================================
+
+// --- 主色调 ---
+$primary: #6366f1;
+$primary-light: #818cf8;
+$primary-dark: #4f46e5;
+$primary-50: #eef2ff;
+$primary-100: #e0e7ff;
+$primary-200: #c7d2fe;
+$primary-300: #a5b4fc;
+$primary-400: #818cf8;
+$primary-500: #6366f1;
+$primary-600: #4f46e5;
+$primary-700: #4338ca;
+$primary-800: #3730a3;
+$primary-900: #312e81;
+
+// --- 次要色 / 强调色 ---
+$secondary: #64748b;
+$secondary-light: #94a3b8;
+$secondary-dark: #475569;
+$accent: #f1f5f9;
+$accent-foreground: #0f172a;
+$destructive: #ef4444;
+
+// --- 状态色（完整色阶） ---
+$status-pending: #f59e0b;
+$status-pending-light: #fbbf24;
+$status-pending-dark: #d97706;
+$status-pending-bg: #fffbeb;
+$status-pending-bg-dark: #451a03;
+
+$status-approved: #10b981;
+$status-approved-light: #34d399;
+$status-approved-dark: #059669;
+$status-approved-bg: #ecfdf5;
+$status-approved-bg-dark: #022c22;
+
+$status-rejected: #ef4444;
+$status-rejected-light: #f87171;
+$status-rejected-dark: #dc2626;
+$status-rejected-bg: #fef2f2;
+$status-rejected-bg-dark: #450a0a;
+
+$status-completed: #3b82f6;
+$status-completed-light: #60a5fa;
+$status-completed-dark: #2563eb;
+$status-completed-bg: #eff6ff;
+$status-completed-bg-dark: #172554;
+
+$status-cancelled: #9ca3af;
+$status-cancelled-light: #d1d5db;
+$status-cancelled-dark: #6b7280;
+$status-cancelled-bg: #f9fafb;
+$status-cancelled-bg-dark: #111827;
+
+// --- 教室状态 ---
+$classroom-available: #10b981;
+$classroom-maintenance: #f59e0b;
+$classroom-disabled: #9ca3af;
+
+// --- 中性色阶（shadcn 式，更丰富的层次） ---
+// 背景层级：page → muted → accent → surface
+$bg-page: #f8fafc;
+$bg-muted: #f1f5f9;
+$bg-accent: #e2e8f0;
+$bg-subtle: #f1f5f9;
+$bg-surface-1: #ffffff;
+$bg-surface-2: #f8fafc;
+$bg-surface-3: #f1f5f9;
+
+// 文本层级：primary → secondary → tertiary → quaternary → muted
+$text-primary: #0f172a;
+$text-secondary: #334155;
+$text-tertiary: #64748b;
+$text-quaternary: #94a3b8;
+$text-muted: #cbd5e1;
+
+// 边框层级：subtle → default → strong
+$border-color: #e2e8f0;
+$border-color-strong: #cbd5e1;
+$border-color-subtle: #f1f5f9;
+
+// --- 圆角（从单一基准值推导，shadcn/ui 规范） ---
+$radius: 0.5rem; // 8px 基准
+$radius-sm: calc(#{$radius} * 0.6);
+$radius-md: calc(#{$radius} * 0.8);
+$radius-lg: $radius;
+$radius-xl: calc(#{$radius} * 1.4);
+$radius-2xl: calc(#{$radius} * 1.8);
+$radius-3xl: calc(#{$radius} * 2.2);
+$radius-full: 9999px;
+
+// --- 过渡曲线 ---
+$transition: cubic-bezier(0.4, 0, 0.2, 1);
+$transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+$transition-out: cubic-bezier(0.0, 0, 0.2, 1);
+$transition-in: cubic-bezier(0.4, 0, 1, 1);
+
+// --- 阴影层级（中性灰，shadcn 式） ---
+$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+
+// --- 字体 ---
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+$font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+// --- 间距（8px 基准） ---
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+$space-2xl: 48px;
+$space-3xl: 64px;
+
+// --- 字体大小 ---
+$text-xs: 12px;
+$text-sm: 13px;
+$text-base: 14px;
+$text-md: 15px;
+$text-lg: 16px;
+$text-xl: 18px;
+$text-2xl: 20px;
+$text-3xl: 24px;
+$text-4xl: 28px;
+
+// --- 字重 ---
+$font-normal: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;

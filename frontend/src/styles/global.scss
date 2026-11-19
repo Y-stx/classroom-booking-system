@@ -1,0 +1,999 @@
+@use './variables.scss' as *;
+
+// ==================== 双主题 CSS 变量体系 ====================
+:root {
+  // 页面背景层级
+  --bg-page: #{$bg-page};
+  --bg-muted: #{$bg-muted};
+  --bg-accent: #{$bg-accent};
+  --bg-subtle: #{$bg-subtle};
+  // 表面层级（surface-1 最高，surface-3 最低）
+  --bg-surface: #{$bg-surface-1};
+  --bg-surface-solid: #{$bg-surface-1};
+  --bg-surface-2: #{$bg-surface-2};
+  --bg-surface-3: #{$bg-surface-3};
+  // 文本层级
+  --text-primary: #{$text-primary};
+  --text-secondary: #{$text-secondary};
+  --text-tertiary: #{$text-tertiary};
+  --text-quaternary: #{$text-quaternary};
+  --text-muted: #{$text-muted};
+  // 边框层级
+  --border-color: #{$border-color};
+  --border-color-strong: #{$border-color-strong};
+  --border-color-subtle: #{$border-color-subtle};
+  // 卡片层次
+  --card-bg: #ffffff;
+  --card-border: #{$border-color};
+  --card-shadow: #{$shadow-sm};
+  --card-shadow-hover: #{$shadow-md};
+  --card-elevated-bg: #ffffff;
+  --card-elevated-border: #{$border-color};
+  --card-elevated-shadow: #{$shadow-md};
+  // 主题色
+  --primary: #{$primary};
+  --primary-rgb: 99, 102, 241;
+  --primary-50: #{$primary-50};
+  --primary-100: #{$primary-100};
+  --primary-200: #{$primary-200};
+  // 次要 / 强调
+  --secondary: #{$secondary};
+  --accent: #{$accent};
+  --accent-foreground: #{$accent-foreground};
+  --destructive: #{$destructive};
+  // 遮罩
+  --overlay-bg: rgba(15, 23, 42, 0.6);
+}
+
+[data-theme='dark'] {
+  --bg-page: #0f172a;
+  --bg-muted: #1e293b;
+  --bg-accent: #334155;
+  --bg-subtle: #1e293b;
+  --bg-surface: #1e293b;
+  --bg-surface-solid: #1e293b;
+  --bg-surface-2: #1e293b;
+  --bg-surface-3: #0f172a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-quaternary: #64748b;
+  --text-muted: #475569;
+  --border-color: #334155;
+  --border-color-strong: #475569;
+  --border-color-subtle: #1e293b;
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --card-shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --card-elevated-bg: #334155;
+  --card-elevated-border: #475569;
+  --card-elevated-shadow: 0 4px 6px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --primary: #{$primary-light};
+  --primary-rgb: 129, 140, 248;
+  --primary-50: rgba(129, 140, 248, 0.1);
+  --primary-100: rgba(129, 140, 248, 0.15);
+  --primary-200: rgba(129, 140, 248, 0.2);
+  --secondary: #{$secondary-light};
+  --accent: #334155;
+  --accent-foreground: #f1f5f9;
+  --destructive: #{$status-rejected-light};
+  --overlay-bg: rgba(15, 23, 42, 0.8);
+}
+
+// ==================== 全局重置 ====================
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: $font-family;
+  color: var(--text-primary);
+  background: var(--bg-page);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+  transition: background 0.2s $transition, color 0.2s $transition;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+// ==================== 滚动条 ====================
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color-strong);
+  border-radius: $radius-full;
+  &:hover {
+    background: var(--text-tertiary);
+  }
+}
+
+// ==================== 卡片体系（层次化） ====================
+// 基础卡片 — 兼容旧 .glass-card 类名
+.glass-card,
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: $radius-lg;
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.2s $transition, border-color 0.2s $transition;
+
+  &:hover {
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--border-color-strong);
+  }
+}
+
+.glass-card-strong,
+.card-elevated {
+  background: var(--card-elevated-bg);
+  border: 1px solid var(--card-elevated-border);
+  border-radius: $radius-lg;
+  box-shadow: var(--card-elevated-shadow);
+}
+
+// 卡片头部
+.card-header {
+  padding: $space-lg $space-lg $space-md;
+  border-bottom: 1px solid var(--border-color-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .card-title {
+    font-size: $text-md;
+    font-weight: $font-semibold;
+    color: var(--text-primary);
+  }
+
+  .card-subtitle {
+    font-size: $text-sm;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+  }
+}
+
+// 卡片内容
+.card-body {
+  padding: $space-lg;
+}
+
+// 卡片底部
+.card-footer {
+  padding: $space-md $space-lg;
+  border-top: 1px solid var(--border-color-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-sm;
+}
+
+// ==================== 表格页面四段式布局 ====================
+// 参考 Vben Admin：筛选区 → 操作栏 → 表格 → 分页
+.table-page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+// 表格卡片容器
+.table-card {
+  padding: $space-lg $space-lg $space-md;
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $space-md;
+    padding-bottom: $space-md;
+    border-bottom: 1px solid var(--border-color-subtle);
+
+    h3 {
+      font-size: $text-lg;
+      font-weight: $font-semibold;
+      color: var(--text-primary);
+    }
+    .table-sub {
+      font-size: $text-sm;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+    .table-count {
+      font-size: $text-sm;
+      color: var(--text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+// 筛选栏
+.filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  padding: $space-md $space-lg;
+
+  .filter-left {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    flex-wrap: wrap;
+  }
+  .filter-right {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    margin-left: auto;
+  }
+  .filter-tip {
+    font-size: $text-sm;
+    color: var(--text-tertiary);
+    margin-left: auto;
+  }
+}
+
+// 快速筛选 Chip
+.quick-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: $radius-full;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-tertiary);
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all 0.15s $transition;
+
+  .chip-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    &.green { background: #{$status-approved}; }
+    &.amber { background: #{$status-pending}; }
+    &.blue { background: #{$status-completed}; }
+    &.red { background: #{$status-rejected}; }
+    &.gray { background: #{$status-cancelled}; }
+  }
+
+  &:hover {
+    background: var(--primary-50);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  &.active {
+    background: var(--primary-50);
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: $font-semibold;
+  }
+}
+
+// ==================== 状态标签（统一颜色语义） ====================
+// 参考 Geeker-Admin 的状态标签体系
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: $radius-full;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  line-height: 1.4;
+  white-space: nowrap;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  &.pending,
+  &.PENDING {
+    background: #{$status-pending-bg};
+    color: #{$status-pending-dark};
+  }
+  &.approved,
+  &.APPROVED {
+    background: #{$status-approved-bg};
+    color: #{$status-approved-dark};
+  }
+  &.rejected,
+  &.REJECTED {
+    background: #{$status-rejected-bg};
+    color: #{$status-rejected-dark};
+  }
+  &.completed,
+  &.COMPLETED {
+    background: #{$status-completed-bg};
+    color: #{$status-completed-dark};
+  }
+  &.cancelled,
+  &.CANCELLED {
+    background: #{$status-cancelled-bg};
+    color: #{$status-cancelled-dark};
+  }
+}
+
+// 兼容：旧状态标签中的圆点
+.status-light {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+// ==================== 按钮体系 ====================
+// 主按钮
+.btn-gradient,
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: $radius-md;
+  font-size: $text-base;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: filter 0.15s $transition, box-shadow 0.15s $transition;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  &:hover {
+    filter: brightness(0.92);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// 次要按钮
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 8px 20px;
+  border-radius: $radius-md;
+  font-size: $text-base;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: all 0.15s $transition;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  &:hover {
+    border-color: var(--border-color-strong);
+    color: var(--text-primary);
+  }
+}
+
+// 文字按钮
+.btn-text {
+  background: transparent;
+  color: var(--primary);
+  border: none;
+  padding: 4px 8px;
+  font-size: $text-base;
+  font-weight: $font-medium;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  transition: background 0.15s $transition;
+
+  &:hover {
+    background: var(--primary-50);
+  }
+}
+
+// 危险按钮
+.btn-danger {
+  background: #{$status-rejected};
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: $radius-md;
+  font-size: $text-base;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: filter 0.15s $transition;
+
+  &:hover {
+    filter: brightness(0.92);
+  }
+}
+
+// 操作按钮（表格行内）
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: $radius-sm;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s $transition;
+
+  .el-icon { font-size: 13px; }
+
+  &.approve, &.success {
+    background: #{$status-approved-bg};
+    color: #{$status-approved-dark};
+    &:hover { background: #{$status-approved}; color: white; }
+  }
+  &.reject, &.danger {
+    background: #{$status-rejected-bg};
+    color: #{$status-rejected-dark};
+    &:hover { background: #{$status-rejected}; color: white; }
+  }
+  &.primary {
+    background: var(--primary-50);
+    color: var(--primary);
+    &:hover { background: var(--primary); color: white; }
+  }
+}
+
+// ==================== 页面标题 ====================
+.page-title {
+  font-size: $text-3xl;
+  font-weight: $font-semibold;
+  color: var(--text-primary);
+  margin-bottom: $space-lg;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: $text-base;
+  color: var(--text-tertiary);
+  margin-top: -#{$space-md};
+  margin-bottom: $space-lg;
+}
+
+// ==================== 表格内组件 ====================
+// 标题单元格
+.title-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: $font-medium;
+
+  .title-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    &.pending, &.PENDING { background: #{$status-pending}; }
+    &.approved, &.APPROVED { background: #{$status-approved}; }
+    &.rejected, &.REJECTED { background: #{$status-rejected}; }
+    &.completed, &.COMPLETED { background: #{$status-completed}; }
+    &.cancelled, &.CANCELLED { background: #{$status-cancelled}; }
+  }
+}
+
+// 时间单元格
+.time-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $text-sm;
+  color: var(--text-secondary);
+
+  .el-icon { font-size: 14px; color: var(--text-quaternary); }
+  .time-sep { color: var(--text-muted); margin: 0 2px; }
+}
+
+// 数字徽章
+.num-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: $radius-sm;
+  background: var(--primary-50);
+  color: var(--primary);
+  font-weight: $font-semibold;
+  font-size: $text-sm;
+  font-variant-numeric: tabular-nums;
+}
+
+// 用户单元格
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .user-avatar {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: $font-semibold;
+    flex-shrink: 0;
+  }
+}
+
+// 弹窗头部
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .dialog-icon {
+    width: 40px; height: 40px;
+    border-radius: $radius-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    flex-shrink: 0;
+  }
+  h3 { font-size: $text-lg; font-weight: $font-semibold; color: var(--text-primary); }
+  span { font-size: $text-sm; color: var(--text-tertiary); }
+
+  &.success .dialog-icon { background: #{$status-approved}; }
+  &.primary .dialog-icon { background: var(--primary); }
+  &.danger .dialog-icon { background: #{$status-rejected}; }
+}
+
+// 弹窗信息块
+.dialog-info,
+.check-info {
+  display: flex;
+  gap: $space-lg;
+  padding: $space-md $space-lg;
+  background: var(--bg-muted);
+  border-radius: $radius-md;
+  margin-bottom: $space-lg;
+
+  .info-block {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: $text-sm;
+    color: var(--text-secondary);
+    .el-icon { color: var(--primary); }
+  }
+}
+
+// 弹窗提示
+.dialog-tip,
+.check-tip {
+  display: flex;
+  gap: 8px;
+  padding: $space-md $space-lg;
+  background: var(--primary-50);
+  border-radius: $radius-md;
+  margin-bottom: $space-lg;
+
+  .el-icon { color: var(--primary); font-size: 18px; flex-shrink: 0; }
+  p { font-size: $text-sm; color: var(--text-secondary); line-height: 1.5; }
+}
+
+// 分页容器
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: $space-md;
+  padding-top: $space-md;
+  border-top: 1px solid var(--border-color-subtle);
+}
+
+// ==================== 动画关键帧 ====================
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+// ==================== 动画工具类 ====================
+.animate-fade-in-up { animation: fadeInUp 0.25s $transition-smooth both; }
+.animate-fade-in { animation: fadeIn 0.2s $transition-smooth both; }
+.animate-slide-in-right { animation: slideInRight 0.25s $transition-smooth both; }
+
+// ==================== 骨架屏 ====================
+.skeleton {
+  background: var(--border-color);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  border-radius: $radius-sm;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+// 骨架屏组
+.skeleton-group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+
+  .skeleton-line {
+    height: 16px;
+    border-radius: $radius-sm;
+    background: var(--border-color);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+
+    &:nth-child(1) { width: 60%; }
+    &:nth-child(2) { width: 80%; }
+    &:nth-child(3) { width: 45%; }
+  }
+}
+
+// ==================== 空状态 ====================
+// 参考 Soybean Admin 的空状态设计
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $space-2xl $space-lg;
+  text-align: center;
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: $radius-lg;
+    background: var(--bg-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: var(--text-tertiary);
+    margin-bottom: $space-md;
+  }
+
+  .empty-title {
+    font-size: $text-md;
+    font-weight: $font-medium;
+    color: var(--text-secondary);
+    margin-bottom: $space-xs;
+  }
+
+  .empty-text {
+    font-size: $text-sm;
+    color: var(--text-tertiary);
+    max-width: 280px;
+    line-height: 1.5;
+  }
+}
+
+// ==================== 分隔线 ====================
+.divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: $space-md 0;
+}
+
+.divider-vertical {
+  width: 1px;
+  background: var(--border-color);
+  margin: 0 $space-md;
+}
+
+// ==================== Element Plus 定制 ====================
+
+// 按钮
+.el-button--primary {
+  background: var(--primary);
+  border: none;
+  border-radius: $radius-md;
+  font-weight: $font-medium;
+  transition: filter 0.15s $transition;
+
+  &:hover, &:focus {
+    background: var(--primary);
+    filter: brightness(0.92);
+  }
+
+  &:active {
+    background: var(--primary);
+    transform: scale(0.98);
+  }
+}
+
+.el-button--success {
+  background: #{$status-approved};
+  border: none;
+  border-radius: $radius-md;
+  &:hover, &:focus { background: #{$status-approved}; filter: brightness(0.92); }
+}
+
+.el-button--danger {
+  background: #{$status-rejected};
+  border: none;
+  border-radius: $radius-md;
+  &:hover, &:focus { background: #{$status-rejected}; filter: brightness(0.92); }
+}
+
+.el-button--default {
+  border: 1px solid var(--border-color);
+  border-radius: $radius-md;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  &:hover {
+    border-color: var(--border-color-strong);
+    color: var(--text-primary);
+  }
+}
+
+// 表格 — 参考 shadcn/ui 行间距与列对齐
+.el-table {
+  background: transparent;
+  color: var(--text-primary);
+  &::before { display: none; }
+
+  th.el-table__cell {
+    background: var(--bg-muted);
+    color: var(--text-secondary);
+    font-weight: $font-semibold;
+    font-size: $text-sm;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 12px 0;
+  }
+
+  td.el-table__cell {
+    border-bottom: 1px solid var(--border-color-subtle);
+    color: var(--text-primary);
+    padding: 14px 0;
+  }
+
+  tbody tr:hover > td.el-table__cell {
+    background: var(--bg-muted) !important;
+  }
+}
+
+// 深色模式下强制表格内容文字颜色，避免被 Element Plus 暗色主题覆盖
+[data-theme='dark'] {
+  .el-table {
+    --el-text-color-primary: #f1f5f9;
+    --el-text-color-regular: #cbd5e1;
+    --el-text-color-secondary: #94a3b8;
+    --el-fill-color-blank: #1e293b;
+    --el-fill-color-light: #1e293b;
+    --el-fill-color-lighter: #1e293b;
+    --el-bg-color: #1e293b;
+    --el-border-color: #334155;
+    --el-border-color-light: #334155;
+    --el-border-color-lighter: #1e293b;
+    --el-table-tr-bg-color: #1e293b;
+    --el-table-header-bg-color: #1e293b;
+    --el-table-row-hover-bg-color: #334155;
+
+    // 所有行（含斑马纹偶数行）统一深色背景 + 亮色文字
+    tr,
+    tr.el-table__row--striped,
+    td.el-table__cell,
+    td.el-table__cell .cell,
+    .el-table__body td .cell {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+
+    th.el-table__cell,
+    th.el-table__cell .cell {
+      background-color: #1e293b !important;
+      color: #cbd5e1 !important;
+    }
+
+    tbody tr:hover > td.el-table__cell,
+    tbody tr:hover > td.el-table__cell .cell {
+      background-color: #334155 !important;
+    }
+  }
+}
+
+// 输入框
+.el-input__wrapper {
+  border-radius: $radius-md;
+  box-shadow: 0 0 0 1px var(--border-color) inset;
+  transition: box-shadow 0.15s $transition;
+  padding: 0 12px;
+
+  &:hover {
+    box-shadow: 0 0 0 1px var(--border-color-strong) inset;
+  }
+
+  &.is-focus {
+    box-shadow: 0 0 0 1px var(--primary) inset !important;
+  }
+}
+
+.el-input__inner {
+  height: 36px;
+  font-size: $text-base;
+}
+
+.el-textarea__inner {
+  border-radius: $radius-md;
+  box-shadow: 0 0 0 1px var(--border-color) inset;
+  transition: box-shadow 0.15s $transition;
+  padding: 10px 12px;
+  font-size: $text-base;
+
+  &:focus {
+    box-shadow: 0 0 0 1px var(--primary) inset;
+  }
+}
+
+.el-select__wrapper {
+  border-radius: $radius-md;
+  min-height: 36px;
+}
+
+// 表单 — 参考 shadcn/ui 的 label-input-spacing
+.el-form-item__label {
+  font-size: $text-base;
+  font-weight: $font-medium;
+  color: var(--text-secondary);
+  padding-bottom: 6px !important;
+}
+
+.el-form-item {
+  margin-bottom: 20px;
+}
+
+// 必填星号
+.el-form-item.is-required .el-form-item__label::before {
+  color: #{$status-rejected};
+  margin-right: 4px;
+}
+
+// 对话框 — 参考 shadcn/ui 弹窗间距
+.el-dialog {
+  border-radius: $radius-xl !important;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-elevated-shadow);
+
+  .el-dialog__header {
+    padding: $space-lg $space-lg $space-md;
+    margin-right: 0;
+    border-bottom: 1px solid var(--border-color-subtle);
+  }
+
+  .el-dialog__title {
+    font-size: $text-lg;
+    font-weight: $font-semibold;
+    color: var(--text-primary);
+  }
+
+  .el-dialog__body {
+    padding: $space-lg;
+    color: var(--text-primary);
+  }
+
+  .el-dialog__footer {
+    padding: $space-md $space-lg $space-lg;
+    border-top: 1px solid var(--border-color-subtle);
+  }
+}
+
+// 分页
+.el-pagination {
+  .el-pager li {
+    border-radius: $radius-sm;
+    transition: background 0.15s $transition;
+    min-width: 32px;
+    height: 32px;
+    line-height: 32px;
+
+    &.is-active {
+      background: var(--primary);
+      color: white;
+    }
+  }
+
+  .btn-prev, .btn-next {
+    border-radius: $radius-sm;
+  }
+}
+
+// 标签页
+.el-tabs__item {
+  font-weight: $font-medium;
+  font-size: $text-base;
+  transition: color 0.2s $transition;
+  &.is-active { color: var(--primary); font-weight: $font-semibold; }
+}
+
+.el-tabs__active-bar {
+  background: var(--primary);
+  height: 2px !important;
+  border-radius: $radius-full;
+}
+
+.el-tabs__nav-wrap::after {
+  background: var(--border-color);
+}
+
+// 通知
+.el-message {
+  border-radius: $radius-md !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: $shadow-lg !important;
+  background: var(--card-bg) !important;
+}
+
+// 下拉菜单
+.el-dropdown-menu {
+  border-radius: $radius-lg !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: $shadow-lg !important;
+  padding: 4px !important;
+
+  .el-dropdown-menu__item {
+    border-radius: $radius-sm;
+    padding: 8px 12px;
+    font-size: $text-base;
+
+    &:hover {
+      background: var(--bg-muted);
+    }
+  }
+}
+
+// 工具提示
+.el-tooltip__trigger {
+  outline: none;
+}
+
+// ==================== 路由过渡动画 ====================
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.15s $transition;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+// ==================== 文本类（兼容旧类名） ====================
+.text-gradient,
+.text-gradient-warm {
+  color: var(--text-primary);
+  font-weight: $font-semibold;
+}
+
+// ==================== 装饰性元素 ====================
+.glow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+// ==================== 工具类 ====================
+.text-muted { color: var(--text-tertiary); }
+.text-secondary { color: var(--text-secondary); }
+.text-primary { color: var(--text-primary); }
+.font-medium { font-weight: $font-medium; }
+.font-semibold { font-weight: $font-semibold; }

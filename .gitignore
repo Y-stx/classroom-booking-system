@@ -1,0 +1,39 @@
+# ===== 依赖与构建产物 =====
+node_modules/
+target/
+dist/
+build/
+out/
+*.class
+
+# ===== 配置与密钥（绝不提交）=====
+application.yml
+application-local.yml
+application-prod.yml
+.env
+*.key
+*.pem
+
+# ===== 学校课程资料（不公开）=====
+项目指导书/
+学生阶段实训*.docx
+
+# ===== 文档与打包（体积大、非源码）=====
+*.docx
+*.pptx
+*.zip
+*.rar
+*.pdf
+
+# ===== 数据与日志 =====
+dump.rdb
+*.log
+
+# ===== IDE =====
+.idea/
+.vscode/
+.trae/
+*.iml
+# 自动补全
+项目指导书/
+学生阶段实训*
